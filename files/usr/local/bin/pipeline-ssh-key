@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+fn=${1##*/}
+
+if [ "$fn" != "$1"  ]; then
+  echo 'Error: The identity-file-name must not contain any directory separators.' 1>&2
+  exit 1
+fi
+if [ -z "$fn" ]; then
+  echo "Usage: ${0} <identity-file-name>" 1>&2
+  exit 1
+fi
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+# use stdin as ssh-key
+cat - > ~/.ssh/"${fn}"
+chmod 600 ~/.ssh/"${fn}"

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+if [ -z "${3}" ]; then
+  echo "Usage: $0 <Host> <User> <HostName> [IdentityFile] [Port]" 1>&2
+  exit 1
+fi
+
+cat <<EOS
+Host ${1}
+  User ${2}
+  HostName ${3}
+  IdentityFile ${4:-~/.ssh/id_rsa}
+  Port ${5:-22}
+EOS

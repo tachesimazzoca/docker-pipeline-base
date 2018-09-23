@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+cfgd="${HOME}/.ssh"
+cfgf="${cfgd}/config"
+
+if [ ! -d "$cfgd" ]; then
+  mkdir -p "$cfgd"
+  chmod 700 "$cfgd"
+fi
+
+if [ ! -f "$cfgf" ]; then
+  touch "$cfgf"
+  chmod 600 "$cfgf"
+else
+  if [ "$(wc -l "$cfgf" | awk '{print $1}')" -gt 0 ]; then
+    echo >> "$cfgf"
+  fi
+fi
+
+pipeline-ssh-config $@ >> "$cfgf"
